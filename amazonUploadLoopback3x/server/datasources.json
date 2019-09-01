@@ -1,0 +1,23 @@
+{
+  "db": {
+    "name": "db",
+    "connector": "memory"
+  },
+  "amazon": {
+    "name": "amazon",
+    "connector": "loopback-component-storage",
+    "provider": "amazon",
+    "key": "PfRTwuFtdc6u2u3JCK5nNXi/iwDAQCU5iIeDBsMd",
+    "keyId": "AKIAZOWKAHYF65ERWGHY",
+    "nameConflict": "makeUnique",
+    "maxFileSize": "52428800",
+    "allowedContentTypes": [
+      "image/jpg",
+      "image/jpeg",
+      "image/png",
+      "image/gif",
+      "application/pdf",
+      "video/mp4"
+    ]
+  }
+}
