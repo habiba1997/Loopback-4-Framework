@@ -1,0 +1,102 @@
+{
+  "name": "loopback4-example-shopping-monorepo",
+  "version": "1.0.0",
+  "description": "Root package to manage monorepo for LoopBack 4 Example: Online Shopping APIs",
+  "keywords": [
+    "loopback-application",
+    "loopback"
+  ],
+  "main": "index.js",
+  "engines": {
+    "node": ">=8.9"
+  },
+  "scripts": {
+    "postinstall": "lerna bootstrap",
+    "build": "lerna run build",
+    "clean": "lerna run clean",
+    "commit": "git-cz",
+    "commitmsg": "commitlint -E GIT_PARAMS",
+    "docker:start": "./bin/start-dbs.sh",
+    "docker:stop": "./bin/stop-dbs.sh",
+    "migrate": "node ./packages/shopping/dist/migrate",
+    "lint": "npm run prettier:check && npm run eslint",
+    "lint:fix": "npm run prettier:fix && npm run eslint:fix",
+    "prettier:cli": "lb-prettier \"**/*.ts\" \"**/*.js\" \"**/*.md\"",
+    "prettier:check": "npm run prettier:cli -- -l",
+    "prettier:fix": "npm run prettier:cli -- --write",
+    "eslint": "lb-eslint --cache --report-unused-disable-directives .",
+    "eslint:fix": "npm run eslint -- --fix",
+    "pretest": "npm run clean && npm run build && npm run docker:start",
+    "pretest:ci": "npm run build",
+    "test": "lb-mocha --allow-console-logs \"packages/*/dist/__tests__/**/*.js\"",
+    "test:ci": "lb-mocha --allow-console-logs \"packages/*/dist/__tests__/**/*.js\"",
+    "posttest": "npm run lint",
+    "test:dev": "lb-mocha --allow-console-logs \"packages/*/dist/__tests__/**/*.js\" && npm run posttest",
+    "prestart": "npm run build",
+    "start": "concurrently --kill-others \"npm run start:app\" \"npm run start:recommender\"",
+    "start:app": "node ./packages/shopping",
+    "start:recommender": "node ./packages/recommender",
+    "prepublishOnly": "npm run test"
+  },
+  "repository": {
+    "type": "git"
+  },
+  "private": true,
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "@commitlint/cli": "8.1.0",
+    "@commitlint/config-conventional": "8.1.0",
+    "@commitlint/config-lerna-scopes": "8.1.0",
+    "@commitlint/travis-cli": "8.1.0",
+    "@loopback/build": "2.0.8",
+    "@loopback/eslint-config": "2.0.2",
+    "@loopback/testlab": "1.7.4",
+    "@types/node": "12.7.2",
+    "@typescript-eslint/eslint-plugin": "1.13.0",
+    "@typescript-eslint/parser": "1.13.0",
+    "commitizen": "4.0.3",
+    "concurrently": "4.1.2",
+    "cz-conventional-changelog": "3.0.2",
+    "eslint": "6.2.1",
+    "eslint-plugin-eslint-plugin": "2.1.0",
+    "eslint-config-prettier": "6.1.0",
+    "eslint-plugin-mocha": "6.1.0",
+    "husky": "3.0.4",
+    "lerna": "3.16.4",
+    "mocha": "6.2.0",
+    "source-map-support": "0.5.13",
+    "typescript": "3.5.3"
+  },
+  "copyright.owner": "IBM Corp.",
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "greenkeeper": {
+    "commitMessages": {
+      "initialBadge": "docs: add Greenkeeper badge",
+      "initialDependencies": "chore: update dependencies",
+      "initialBranches": "chore: whitelist greenkeeper branches",
+      "dependencyUpdate": "chore: update ${dependency} to version ${version}",
+      "devDependencyUpdate": "chore: update ${dependency} to version ${version}",
+      "dependencyPin": "chore: pin ${dependency} to ${oldVersion}",
+      "devDependencyPin": "chore: pin ${dependency} to ${oldVersion}",
+      "lockfileUpdate": "chore: update lockfile ${lockfilePath}"
+    },
+    "prTitles": {
+      "initialPR": "[greenkeeper] update dependencies to enable Greenkeeper",
+      "initialPrBadge": "[greenkeeper] add badge to enable Greenkeeper",
+      "initialPrBadgeOnly": "[greenkeeper] add Greenkeeper badge",
+      "initialSubgroupPR": "[greenkeeper] update dependencies for ${group}",
+      "basicPR": "[greenkeeper] update ${dependency} to the latest",
+      "groupPR": "[greenkeeper] update ${dependency} in group ${group} to the latest"
+    }
+  }
+}
